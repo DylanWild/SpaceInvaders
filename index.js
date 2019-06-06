@@ -39,6 +39,7 @@ for(let c=0; c<alienColumnCount; c++){
 }
 
 let pewPew = new Audio('./pewpew.mp3');
+let background = new Audio('./background.mp3')
 
 
 function animationWait(time){
@@ -302,6 +303,7 @@ function menu() {
  
   
  function startGame() {
+    background.play()
   draw();
   move()
   canvas.removeEventListener('click', startGame);
@@ -315,5 +317,6 @@ function menu() {
   ctx.textAlign = 'center';
   ctx.fillText('Game Over. Your Space Has Been Invaded. Final Score: ' + score, canvas.width / 2, canvas.height / 2);
 }
+
 
 menu();
