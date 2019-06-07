@@ -38,9 +38,11 @@ for(let c=0; c<alienColumnCount; c++){
     }
 }
 
-let pewPew = new Audio('./pewpew.mp3');
-let background = new Audio('./background.mp3')
 
+let pewPew = new Audio('./pewpew.mp3');
+let title = new Audio('./titlebackground.mp3')
+let gameBack = new Audio('./uranus.mp3')
+let soundCount = 0
 
 function animationWait(time){
     return new Promise(resolve => {
@@ -52,6 +54,8 @@ function animationWait(time){
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup",keyUpHandler, false);
+
+
 
 function collisionDetection(){
     for(let c=0;c<alienColumnCount;c++){
@@ -223,7 +227,9 @@ await animationWait(1000)
 document.onkeydown = async function(e){
     
     if(e.key === 'x'){
+        if(soundCount==0){
         pewPew.play();
+        }
         for(i=0;i<100;i++){
             
        bulletX += dx
@@ -233,6 +239,11 @@ document.onkeydown = async function(e){
         bulletX = heroX+heroWidth/2
         bulletY = heroY
         alternate = false
+    } 
+    if(e.key === 'm'){
+    soundCount++
+    gameBack.pause()
+    title.pause()
     }
 }
 
@@ -252,8 +263,6 @@ let bullet = () => {
     ctx.fillStyle = 'limegreen'
     ctx.fill();
     ctx.closePath();
-    
-
 }
 
 
@@ -267,9 +276,6 @@ let draw = async()=>{
     drawScore();
     drawLives();
     bullet();
-    
-    
-
     
     if(rightPressed && heroX < canvas.width - heroWidth){
         heroX += 7;
@@ -288,7 +294,7 @@ let draw = async()=>{
 requestAnimationFrame(draw);
 }
 function menu() {
-   
+    title.play()
     ctx.fillStyle = 'white';
     ctx.font = '36px Courier';
     ctx.textAlign = 'center';
@@ -297,13 +303,18 @@ function menu() {
     ctx.fillText('Click to Start', canvas.width / 2, canvas.height / 2-30);
     ctx.font = '18px Courier';
     ctx.fillText('X to shoot', canvas.width / 2, (canvas.height / 4-30) * 3);
-    
-    canvas.addEventListener('click', startGame);
+    ctx.font = '18px Courier';
+    ctx.fillText('M to Mute', canvas.width / 2, (canvas.height / 6-30) * 3);
+    canvas.addEventListener('click', startGame);  
+   
   }
+
+  
  
   
  function startGame() {
-    background.play()
+     title.pause()
+    gameBack.play()
   draw();
   move()
   canvas.removeEventListener('click', startGame);
