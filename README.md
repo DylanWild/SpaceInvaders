@@ -1,5 +1,5 @@
 # SpaceInvaders
-This was a group project recreating Space Invader.
+This was a group project recreating Space Invaders.
 
 The game was built using Canvas.js.
 
